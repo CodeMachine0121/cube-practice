@@ -1,6 +1,6 @@
 create database CubeDB
 
-create table [dbo].[CurrencyNames] (
+create table [dbo].[CurrencyName] (
     [Id]         INT           NOT NULL IDENTITY (1,1),
     [CreatedOn]  DATETIME      NOT NULL,
     [CreatedBy]  NVARCHAR(50)  NOT NULL,
