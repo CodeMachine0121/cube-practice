@@ -1,0 +1,6 @@
+@cube_practice_HostAddress = http://localhost:5164
+
+GET {{cube_practice_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
