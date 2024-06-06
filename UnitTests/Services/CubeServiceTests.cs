@@ -1,5 +1,6 @@
 using cube_practice.Models;
 using cube_practice.Proxies.Interfaces;
+using cube_practice.Repositories.Interfaces;
 using cube_practice.Services;
 using FluentAssertions;
 using NSubstitute;
@@ -15,12 +16,15 @@ public class CubeServiceTests
     private ICubeProxy? _cubeProxy;
     private CubeService _cubeService;
     private DateTime _updatedOn;
+    private ICubeRepository? _cubeRepository;
 
     [SetUp]
     public void SetUp()
     {
         _cubeProxy = Substitute.For<ICubeProxy>();
-        _cubeService = new CubeService(_cubeProxy);
+        _cubeRepository = Substitute.For<ICubeRepository>();
+
+        _cubeService = new CubeService(_cubeProxy, _cubeRepository);
         _updatedOn = DateTime.Now;
     }
 
@@ -39,6 +43,15 @@ public class CubeServiceTests
             },
         });
         
+        _cubeRepository!.GetCurrencyNames().Returns(new List<CurrencyNameDomain>()
+        {
+           new CurrencyNameDomain()
+           {
+              Code= "any-currency-code" ,
+              ChineseName = "any-chinese-name"
+           } 
+        });
+        
         var coinDesk = await _cubeService.GetCoinDesk();
         
         coinDesk.Should().BeEquivalentTo(new CurrencyRate()
@@ -49,7 +62,7 @@ public class CubeServiceTests
                 new()
                 {
                     Code = "any-currency-code",
-                    ChineseName = "",
+                    ChineseName = "any-chinese-name",
                     Rate = "any-rate"
                 }
             }
