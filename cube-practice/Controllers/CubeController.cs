@@ -1,17 +1,17 @@
-using cube_practice.Proxies.Interfaces;
+using cube_practice.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cube_practice.Controllers;
 
 [ApiController]
-public class CubeController(ICubeProxy cubeProxy) : ControllerBase
+public class CubeController(ICubeService cubeService) : ControllerBase
 {
 
    [HttpGet]
    [Route("coindesk")]
    public async Task<ActionResult> CoinDesk()
    {
-      var currenctPrice = await cubeProxy.GetCoinDesk();
-      return Ok(currenctPrice);
+      var coinDesk = await cubeService.GetCoinDesk();
+      return Ok(coinDesk);
    }
 }
