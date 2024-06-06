@@ -14,5 +14,14 @@ public class CurrencyDetailResponse
     public string Description { get; set; }
     [JsonPropertyName("rate-float")]
     public string RateFloat { get; set; }
-   
+
+    public CurrencyDetail ToCurrencyDetail(List<CurrencyNameDomain> currencyNameDomains)
+    {
+        return new CurrencyDetail
+        {
+            Code = Code,
+            ChineseName = currencyNameDomains.First(xx=> xx.Code == Code).ChineseName,
+            Rate = Rate
+        };
+    }
 }

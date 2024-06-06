@@ -17,12 +17,8 @@ public class CubeService(ICubeProxy cubeProxy, ICubeRepository cubeRepository) :
         return  new CurrencyRate
         {
             UpdatedOn = currencyRateResponse.Time.UpdatedIso,
-            Detail = currencyRateResponse.Bpi.Values.Select(x=> new CurrencyDetail
-            {
-                Code = x.Code,
-                ChineseName = currencyNameDomains.First(xx=> xx.Code == x.Code).ChineseName,
-                Rate = x.Rate
-            }).ToList()
+            Detail = currencyRateResponse.Bpi.Values.Select(x=> x.ToCurrencyDetail(currencyNameDomains)).ToList()
         };
     }
+
 }
