@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cube-practice", "cube-practice\cube-practice.csproj", "{BEA51C88-911A-4072-A76B-6CF637ED8478}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{3EBFD85D-5962-449C-8F6C-E9B6119A8ACE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{BEA51C88-911A-4072-A76B-6CF637ED8478}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEA51C88-911A-4072-A76B-6CF637ED8478}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEA51C88-911A-4072-A76B-6CF637ED8478}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EBFD85D-5962-449C-8F6C-E9B6119A8ACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EBFD85D-5962-449C-8F6C-E9B6119A8ACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EBFD85D-5962-449C-8F6C-E9B6119A8ACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EBFD85D-5962-449C-8F6C-E9B6119A8ACE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
