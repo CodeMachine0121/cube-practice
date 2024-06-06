@@ -1,12 +1,21 @@
+using cube_practice.DataBase;
+using cube_practice.DataBase.Entities;
 using cube_practice.Models;
 using cube_practice.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace cube_practice.Repositories;
 
-public class CubeRepository : ICubeRepository
+public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 {
-    public List<CurrencyNameDomain> GetCurrencyNames()
+    private readonly DbSet<CurrencyName> _currencyNames = cubeDbContext.CurrencyName;
+
+    public List<CurrencyNameDomain> Fetch()
     {
-        throw new NotImplementedException();
+        return _currencyNames.Select(x=> new CurrencyNameDomain()
+        {
+            ChineseName = x.ChineseName,
+            Code = x.Code
+        }).ToList();
     }
 }

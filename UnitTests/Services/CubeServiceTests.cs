@@ -70,7 +70,7 @@ public class CubeServiceTests
 
     private void GivenCurrencyNames(params CurrencyNameDomain[] currencyNameDomains)
     {
-        _cubeRepository!.GetCurrencyNames().Returns(currencyNameDomains.ToList());
+        _cubeRepository!.Fetch().Returns(currencyNameDomains.ToList());
     }
 
     private void GivenCoinDesk(Dictionary<string, CurrencyDetailResponse> bpi)
