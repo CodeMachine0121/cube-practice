@@ -43,14 +43,13 @@ public class CubeServiceTests
             },
         });
         
-        _cubeRepository!.GetCurrencyNames().Returns(new List<CurrencyNameDomain>()
-        {
-           new CurrencyNameDomain()
-           {
-              Code= "any-currency-code" ,
-              ChineseName = "any-chinese-name"
-           } 
-        });
+        GivenCurrencyNames(
+            new CurrencyNameDomain()
+            {
+                Code= "any-currency-code" ,
+                ChineseName = "any-chinese-name"
+            } 
+        );
         
         var coinDesk = await _cubeService.GetCoinDesk();
         
@@ -67,6 +66,11 @@ public class CubeServiceTests
                 }
             }
         });
+    }
+
+    private void GivenCurrencyNames(params CurrencyNameDomain[] currencyNameDomains)
+    {
+        _cubeRepository!.GetCurrencyNames().Returns(currencyNameDomains.ToList());
     }
 
     private void GivenCoinDesk(Dictionary<string, CurrencyDetailResponse> bpi)
