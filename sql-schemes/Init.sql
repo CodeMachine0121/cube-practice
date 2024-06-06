@@ -1,6 +1,9 @@
 create database CubeDB
 
-create table [dbo].[CurrencyNames] ( 
-    Code varchar(4),
-    ChineseName nvarchar(100)
+create table [dbo].[CurrencyNames] (
+    [Id]         INT           NOT NULL IDENTITY (1,1),
+    [CreatedOn]  DATETIME      NOT NULL,
+    [CreatedBy]  NVARCHAR(50)  NOT NULL,
+    Code VARCHAR(4) NOT NULL,
+    ChineseName NVARCHAR(100) NOT NULL
 )
