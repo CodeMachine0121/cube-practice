@@ -3,6 +3,7 @@ using cube_practice.Proxies.Interfaces;
 using cube_practice.Services;
 using FluentAssertions;
 using NSubstitute;
+using NSubstitute.Core;
 using NUnit.Framework;
 
 namespace UnitTests.Services;
@@ -13,42 +14,36 @@ public class CubeServiceTests
 
     private ICubeProxy? _cubeProxy;
     private CubeService _cubeService;
+    private DateTime _updatedOn;
 
     [SetUp]
     public void SetUp()
     {
         _cubeProxy = Substitute.For<ICubeProxy>();
         _cubeService = new CubeService(_cubeProxy);
+        _updatedOn = DateTime.Now;
     }
 
     [Test]
     public async Task should_get_data_with_domain_type()
     {
-        var updatedOn = DateTime.Now;
-
-        _cubeProxy!.GetCoinDesk().Returns(new CurrencyRateResponse
+        GivenCoinDesk(new Dictionary<string, CurrencyDetailResponse>()
         {
-            Time = new UpdateTime
-            {
-                UpdatedIso = updatedOn,
+            {"any-currency-code", new CurrencyDetailResponse
+                {
+                    Code = "any-currency-code",
+                    Symbol = "&any",
+                    Rate = "any-rate",
+                    RateFloat = "any-flow-rate" 
+                }
             },
-            Bpi = new Dictionary<string, CurrencyDetailResponse>()
-            {
-                {"any-currency-code", new CurrencyDetailResponse
-                    {
-                        Code = "any-currency-code",
-                        Symbol = "&any",
-                        Rate = "any-rate",
-                        RateFloat = "any-flow-rate" 
-                    }
-                },
-            } 
         });
+        
         var coinDesk = await _cubeService.GetCoinDesk();
-
+        
         coinDesk.Should().BeEquivalentTo(new CurrencyRate()
         {
-            UpdatedOn = updatedOn,
+            UpdatedOn = _updatedOn,
             Detail = new List<CurrencyDetail>()
             {
                 new()
@@ -59,6 +54,23 @@ public class CubeServiceTests
                 }
             }
         });
+    }
+
+    private void GivenCoinDesk(Dictionary<string, CurrencyDetailResponse> bpi)
+    {
+        _cubeProxy!.GetCoinDesk().Returns(CreateCurrencyRateResponse(bpi));
+    }
+
+    private CurrencyRateResponse CreateCurrencyRateResponse( Dictionary<string, CurrencyDetailResponse> bpi)
+    {
+        return new CurrencyRateResponse
+        {
+            Time = new UpdateTime
+            {
+                UpdatedIso = _updatedOn,
+            },
+            Bpi = bpi 
+        };
     }
 
 }
