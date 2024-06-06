@@ -1,10 +1,11 @@
 using cube_practice.Models;
 using cube_practice.Proxies.Interfaces;
 using cube_practice.Repositories.Interfaces;
+using cube_practice.Services.Interfaces;
 
 namespace cube_practice.Services;
 
-public class CubeService(ICubeProxy cubeProxy, ICubeRepository cubeRepository)
+public class CubeService(ICubeProxy cubeProxy, ICubeRepository cubeRepository) : ICubeService
 {
 
     public async Task<CurrencyRate> GetCoinDesk()
