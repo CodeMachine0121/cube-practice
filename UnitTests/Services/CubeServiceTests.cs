@@ -1,4 +1,7 @@
+using cube_practice.Models;
 using cube_practice.Proxies.Interfaces;
+using cube_practice.Services;
+using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -19,18 +22,43 @@ public class CubeServiceTests
     }
 
     [Test]
-    public async Task should_get_data_by_proxy()
+    public async Task should_get_data_with_domain_type()
     {
-        await _cubeService.GetCoinDesk();
-        await _cubeProxy.Received()!.GetCoinDesk();
-    }
-}
+        var updatedOn = DateTime.Now;
 
-public class CubeService(ICubeProxy cubeProxy)
-{
+        _cubeProxy!.GetCoinDesk().Returns(new CurrencyRateResponse
+        {
+            Time = new UpdateTime
+            {
+                UpdatedIso = updatedOn,
+            },
+            Bpi = new Dictionary<string, CurrencyDetailResponse>()
+            {
+                {"any-currency-code", new CurrencyDetailResponse
+                    {
+                        Code = "any-currency-code",
+                        Symbol = "&any",
+                        Rate = "any-rate",
+                        RateFloat = "any-flow-rate" 
+                    }
+                },
+            } 
+        });
+        var coinDesk = await _cubeService.GetCoinDesk();
 
-    public async Task GetCoinDesk()
-    {
-        await cubeProxy.GetCoinDesk();
+        coinDesk.Should().BeEquivalentTo(new CurrencyRate()
+        {
+            UpdatedOn = updatedOn,
+            Detail = new List<CurrencyDetail>()
+            {
+                new()
+                {
+                    Code = "any-currency-code",
+                    ChineseName = "",
+                    Rate = "any-rate"
+                }
+            }
+        });
     }
+
 }

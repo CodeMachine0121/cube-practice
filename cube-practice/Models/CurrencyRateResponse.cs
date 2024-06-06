@@ -3,7 +3,7 @@ using cube_practice.Controllers;
 
 namespace cube_practice.Models;
 
-public class CurrenctPrice
+public class CurrencyRateResponse
 {
     [JsonPropertyName("time")]
     public UpdateTime Time { get; set; }
@@ -12,5 +12,5 @@ public class CurrenctPrice
     [JsonPropertyName("chartName")]
     public string chartName { get; set; }
     [JsonPropertyName("bpi")]
-    public Dictionary<string, CurrencyDetail> Bpi { get; set; }
+    public Dictionary<string, CurrencyDetailResponse> Bpi { get; set; }
 }

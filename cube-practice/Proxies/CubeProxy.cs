@@ -8,13 +8,13 @@ namespace cube_practice.Proxies;
 public class CubeProxy(HttpClient httpClient) : ICubeProxy
 {
 
-    public async Task<CurrenctPrice> GetCoinDesk()
+    public async Task<CurrencyRateResponse> GetCoinDesk()
     {
         var getAsync = await httpClient.GetAsync("/v1/bpi/currentprice.json");
         getAsync.EnsureSuccessStatusCode();
 
         var response = await getAsync.Content.ReadAsStreamAsync();
 
-        return (await JsonSerializer.DeserializeAsync<CurrenctPrice>(response))!;
+        return (await JsonSerializer.DeserializeAsync<CurrencyRateResponse>(response))!;
     }
 }
