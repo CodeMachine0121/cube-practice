@@ -4,5 +4,5 @@ namespace cube_practice.Proxies.Interfaces;
 
 public interface ICubeProxy
 {
-    CurrenctPrice GetCoinDesk();
+    Task<CurrenctPrice> GetCoinDesk();
 }

@@ -1,8 +1,13 @@
+using System.Text.Json.Serialization;
+
 namespace cube_practice.Models;
 
 public class UpdateTime
 {
-    public DateTime Updated { get; set; }
+    [JsonPropertyName("updated")]
+    public string Updated { get; set; }
+    [JsonPropertyName("updatedISO")]
     public DateTime UpdatedIso { get; set; }
-    public DateTime UpdatedDuk { get; set; }
+    [JsonPropertyName("updateduk")]
+    public string UpdatedUk { get; set; }
 }

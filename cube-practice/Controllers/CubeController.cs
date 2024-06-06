@@ -9,9 +9,9 @@ public class CubeController(ICubeProxy cubeProxy) : ControllerBase
 
    [HttpGet]
    [Route("coindesk")]
-   public ActionResult CoinDesk()
+   public async Task<ActionResult> CoinDesk()
    {
-      cubeProxy.GetCoinDesk();
-      return Ok();
+      var currenctPrice = await cubeProxy.GetCoinDesk();
+      return Ok(currenctPrice);
    }
 }
