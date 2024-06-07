@@ -34,6 +34,10 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 
     public void Update(CurrencyNameApiDto currencyNameApiDto)
     {
+        var target = _currencyNames.First(x=> x.Id == currencyNameApiDto.Id);
+        target.ChineseName = currencyNameApiDto.ChineseName;
+        target.Code = currencyNameApiDto.Code;
+        cubeDbContext.SaveChanges();
     }
 
     public void DeleteBy(int id)
