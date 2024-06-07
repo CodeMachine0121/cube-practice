@@ -16,7 +16,7 @@ public class CurrencyNameApiController(ICubeRepository cubeRepository)
 
 
     [HttpPost]
-    public ApiResponse Insert(CurrencyNameApiRequest request)
+    public ApiResponse Insert([FromBody] CurrencyNameApiRequest request)
     {
         cubeRepository.Insert(new CurrencyNameApiDto()
         {
@@ -28,12 +28,12 @@ public class CurrencyNameApiController(ICubeRepository cubeRepository)
         return ApiResponse.Success();
     }
 
-    [HttpPatch]
-    public ApiResponse Update(CurrencyNameApiRequest request)
+    [HttpPatch("/{id}")]
+    public ApiResponse Update([FromBody] CurrencyNameApiRequest request, int id)
     {
         cubeRepository.Update(new CurrencyNameApiDto()
         {
-           Id = request.Id,
+           Id = id,
            ChineseName = request.ChinessName,
            Code = request.Code
         });

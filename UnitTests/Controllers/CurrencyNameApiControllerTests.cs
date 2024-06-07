@@ -52,7 +52,7 @@ public class CurrencyNameApiControllerTests
     [Test]
     public void should_update_by_repo()
     {
-        var apiResponse = _currencyNameApiController.Update(new CurrencyNameApiRequest());
+        var apiResponse = _currencyNameApiController.Update(new CurrencyNameApiRequest(), 1);
 
         _cubeRepository.Received()!.Update(Arg.Any<CurrencyNameApiDto>());
         
