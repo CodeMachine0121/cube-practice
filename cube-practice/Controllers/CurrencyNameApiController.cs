@@ -9,12 +9,9 @@ public class CurrencyNameApiController(ICubeRepository cubeRepository)
     public ApiResponse Fetch()
     {
         var currencyNameDomains = cubeRepository.Fetch();
-        return new ApiResponse()
-        {
-            Status = ApiStatus.Success,
-            Data = currencyNameDomains
-        };
+        return ApiResponse.SuccessWithData(currencyNameDomains);
     }
+
 
     public ApiResponse Insert(CurrencyNameApiRequest request)
     {
@@ -24,9 +21,7 @@ public class CurrencyNameApiController(ICubeRepository cubeRepository)
             ChineseName = request.ChinessName
         });
         
-        return new ApiResponse()
-        {
-            Status = ApiStatus.Success
-        };
+        return ApiResponse.Success();
     }
+
 }
