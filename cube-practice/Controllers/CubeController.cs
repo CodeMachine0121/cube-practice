@@ -1,3 +1,4 @@
+using cube_practice.Models;
 using cube_practice.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,9 @@ public class CubeController(ICubeService cubeService) : ControllerBase
 
    [HttpGet]
    [Route("coindesk")]
-   public async Task<ActionResult> CoinDesk()
+   public async Task<ApiResponse> CoinDesk()
    {
       var coinDesk = await cubeService.GetCoinDesk();
-      return Ok(coinDesk);
+      return ApiResponse.SuccessWithData(coinDesk);
    }
 }
