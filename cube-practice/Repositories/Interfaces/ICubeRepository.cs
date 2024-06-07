@@ -8,4 +8,5 @@ public interface ICubeRepository
     void Insert(CurrencyNameApiDto currencyNameApiDto);
     void Update(CurrencyNameApiDto currencyNameApiDto);
     void DeleteBy(int id);
+    CurrencyNameDomain FetchBy(int id);
 }

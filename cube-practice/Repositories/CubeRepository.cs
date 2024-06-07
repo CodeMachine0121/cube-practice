@@ -32,4 +32,9 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
     {
         
     }
+
+    public CurrencyNameDomain FetchBy(int id)
+    {
+        return new CurrencyNameDomain();
+    }
 }

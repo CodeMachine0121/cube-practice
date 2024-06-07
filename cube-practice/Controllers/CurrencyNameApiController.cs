@@ -46,4 +46,11 @@ public class CurrencyNameApiController(ICubeRepository cubeRepository)
         cubeRepository.DeleteBy(id);
         return ApiResponse.Success();
     }
+
+    [HttpGet("/{id}")]
+    public ApiResponse FetchById(int id)
+    {
+        var currencyNameDomain = cubeRepository.FetchBy(id);
+        return ApiResponse.SuccessWithData(currencyNameDomain);
+    }
 }

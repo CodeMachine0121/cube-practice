@@ -68,6 +68,18 @@ public class CurrencyNameApiControllerTests
         apiResponse.Status.Should().Be(ApiStatus.Success);
     }
 
+    [Test]
+    public void should_get_by_id()
+    {
+        _cubeRepository!.FetchBy(Arg.Any<int>()).Returns(new CurrencyNameDomain());
+        
+        var apiResponse = _currencyNameApiController.FetchById(1);
+        
+        _cubeRepository.Received()!.FetchBy(Arg.Any<int>());
+        apiResponse.Status.Should().Be(ApiStatus.Success);
+        apiResponse.Data!.GetType().Should().Be(typeof(CurrencyNameDomain));
+    }
+
     private void GivenCurrencyDomains(params CurrencyNameDomain[] currencyNameDomains)
     {
         _cubeRepository!.Fetch().Returns(currencyNameDomains.ToList());
