@@ -13,13 +13,13 @@ namespace UnitTests.Controllers;
 public class CurrencyNameApiControllerTests
 {
     private ICubeRepository? _cubeRepository;
-    private CurrencyNameApiController _currencyNameApiController;
+    private CurrencyNameController _currencyNameController;
 
     [SetUp]
     public void SetUp()
     {
         _cubeRepository = Substitute.For<ICubeRepository>();
-        _currencyNameApiController = new CurrencyNameApiController(_cubeRepository);
+        _currencyNameController = new CurrencyNameController(_cubeRepository);
     }
 
     [Test]
@@ -29,7 +29,7 @@ public class CurrencyNameApiControllerTests
             new CurrencyNameDomain()
         );
 
-        var apiResponse = await _currencyNameApiController.Fetch();
+        var apiResponse = await _currencyNameController.Fetch();
 
         apiResponse.Status.Should().Be(ApiStatus.Success);
         apiResponse.Data!.GetType().Should().Be(typeof(List<CurrencyNameDomain>));
@@ -38,7 +38,7 @@ public class CurrencyNameApiControllerTests
     [Test]
     public async Task should_insert_by_repo()
     {
-        var apiResponse = await _currencyNameApiController.Insert(new CurrencyNameApiRequest()
+        var apiResponse = await _currencyNameController.Insert(new CurrencyNameApiRequest()
         {
             Code = "any-currency-code",
             ChinessName = "any-chinese-name",
@@ -52,7 +52,7 @@ public class CurrencyNameApiControllerTests
     [Test]
     public async Task should_update_by_repo()
     {
-        var apiResponse = await _currencyNameApiController.Update(new CurrencyNameApiRequest(), 1);
+        var apiResponse = await _currencyNameController.Update(new CurrencyNameApiRequest(), 1);
 
         await _cubeRepository.Received()!.Update(Arg.Any<CurrencyNameApiDto>());
         
@@ -62,7 +62,7 @@ public class CurrencyNameApiControllerTests
     [Test]
     public async Task should_delete_by_repo()
     {
-        var apiResponse = await _currencyNameApiController.Delete(1);
+        var apiResponse = await _currencyNameController.Delete(1);
 
         await _cubeRepository.Received()!.DeleteBy(1);
         
@@ -74,7 +74,7 @@ public class CurrencyNameApiControllerTests
     {
         _cubeRepository!.FetchBy(Arg.Any<int>()).Returns(new CurrencyNameDomain());
         
-        var apiResponse = await _currencyNameApiController.FetchById(1);
+        var apiResponse = await _currencyNameController.FetchById(1);
         
         await _cubeRepository.Received()!.FetchBy(Arg.Any<int>());
         apiResponse.Status.Should().Be(ApiStatus.Success);

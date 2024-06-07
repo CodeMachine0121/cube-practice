@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace cube_practice.Controllers;
 
 [Route("api/[controller]")]
-public class CurrencyNameApiController(ICubeRepository cubeRepository)
+public class CurrencyNameController(ICubeRepository cubeRepository)
 {
     [HttpGet]
     public async Task<ApiResponse> Fetch()
