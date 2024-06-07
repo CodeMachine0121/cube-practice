@@ -31,7 +31,7 @@ builder.Services.AddDbContext<CubeDbContext>(options =>
     connectionString = connectionString!.Replace("${DB_PASS}", Environment.GetEnvironmentVariables()["DB_PASS"]!.ToString());
     
     options.UseSqlServer(connectionString);
-}, ServiceLifetime.Singleton);
+}, ServiceLifetime.Transient);
 
 
 

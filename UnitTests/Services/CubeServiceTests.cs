@@ -68,6 +68,47 @@ public class CubeServiceTests
         });
     }
 
+    [Test]
+    public async Task should_get_not_found_chinese_name_when_db_no_exist_data()
+    {
+        GivenCoinDesk(new Dictionary<string, CurrencyDetailResponse>()
+        {
+            {"any-currency-code", new CurrencyDetailResponse
+                {
+                    Code = "any-currency-code",
+                    Symbol = "&any",
+                    Rate = "any-rate",
+                    RateFloat = "any-flow-rate" 
+                }
+            },
+        });
+        
+        GivenCurrencyNames(
+            new CurrencyNameDomain()
+            {
+                Code= "any-currency-code2" ,
+                ChineseName = "any-chinese-name2"
+            } 
+        );
+        
+        var coinDesk = await _cubeService.GetCoinDesk();
+        
+        coinDesk.Should().BeEquivalentTo(new CurrencyRate()
+        {
+            UpdatedOn = _updatedOn,
+            Detail = new List<CurrencyDetail>()
+            {
+                new()
+                {
+                    Code = "any-currency-code",
+                    ChineseName = "not-found",
+                    Rate = "any-rate"
+                }
+            }
+        });
+ 
+    }
+
     private void GivenCurrencyNames(params CurrencyNameDomain[] currencyNameDomains)
     {
         _cubeRepository!.Fetch().Returns(currencyNameDomains.ToList());

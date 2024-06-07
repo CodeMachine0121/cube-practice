@@ -17,10 +17,12 @@ public class CurrencyDetailResponse
 
     public CurrencyDetail ToCurrencyDetail(List<CurrencyNameDomain> currencyNameDomains)
     {
+        var currencyNameDomain = currencyNameDomains.FirstOrDefault(xx=> xx.Code == Code);
+
         return new CurrencyDetail
         {
             Code = Code,
-            ChineseName = currencyNameDomains.First(xx=> xx.Code == Code).ChineseName,
+            ChineseName = currencyNameDomain?.ChineseName ?? "not-found",
             Rate = Rate
         };
     }
