@@ -42,7 +42,9 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 
     public void DeleteBy(int id)
     {
-        
+        var target = _currencyNames.First(x=> x.Id == id);
+        _currencyNames.Remove(target);
+        cubeDbContext.SaveChanges();
     }
 
     public CurrencyNameDomain FetchBy(int id)
