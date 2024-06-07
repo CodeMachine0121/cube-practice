@@ -11,7 +11,7 @@ public class CubeService(ICubeProxy cubeProxy, ICubeRepository cubeRepository) :
     public async Task<CurrencyRate> GetCoinDesk()
     {
         var currencyRateResponse = await cubeProxy.GetCoinDesk();
-        var currencyNameDomains = cubeRepository.Fetch();
+        var currencyNameDomains = await cubeRepository.Fetch();
 
 
         return  new CurrencyRate

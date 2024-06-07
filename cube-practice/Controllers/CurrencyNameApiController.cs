@@ -8,17 +8,17 @@ namespace cube_practice.Controllers;
 public class CurrencyNameApiController(ICubeRepository cubeRepository)
 {
     [HttpGet]
-    public ApiResponse Fetch()
+    public async Task<ApiResponse> Fetch()
     {
-        var currencyNameDomains = cubeRepository.Fetch();
+        var currencyNameDomains = await cubeRepository.Fetch();
         return ApiResponse.SuccessWithData(currencyNameDomains);
     }
 
 
     [HttpPost]
-    public ApiResponse Insert([FromBody] CurrencyNameApiRequest request)
+    public async Task<ApiResponse> Insert([FromBody] CurrencyNameApiRequest request)
     {
-        cubeRepository.Insert(new CurrencyNameApiDto()
+        await cubeRepository.Insert(new CurrencyNameApiDto()
         {
             Code = request.Code,
             ChineseName = request.ChinessName,
@@ -29,29 +29,29 @@ public class CurrencyNameApiController(ICubeRepository cubeRepository)
     }
 
     [HttpPatch("/{id}")]
-    public ApiResponse Update([FromBody] CurrencyNameApiRequest request, int id)
+    public async Task<ApiResponse> Update([FromBody] CurrencyNameApiRequest request, int id)
     {
-        cubeRepository.Update(new CurrencyNameApiDto()
+        await cubeRepository.Update(new CurrencyNameApiDto()
         {
-           Id = id,
-           ChineseName = request.ChinessName,
-           Code = request.Code
+            Id = id,
+            ChineseName = request.ChinessName,
+            Code = request.Code
         });
         
         return ApiResponse.Success();
     }
 
     [HttpDelete("/{id}")]
-    public ApiResponse Delete(int id)
+    public async Task<ApiResponse> Delete(int id)
     {
-        cubeRepository.DeleteBy(id);
+        await cubeRepository.DeleteBy(id);
         return ApiResponse.Success();
     }
 
     [HttpGet("/{id}")]
-    public ApiResponse FetchById(int id)
+    public async Task<ApiResponse> FetchById(int id)
     {
-        var currencyNameDomain = cubeRepository.FetchBy(id);
+        var currencyNameDomain = await cubeRepository.FetchBy(id);
         return ApiResponse.SuccessWithData(currencyNameDomain);
     }
 }

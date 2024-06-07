@@ -10,18 +10,18 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 {
     private readonly DbSet<CurrencyName> _currencyNames = cubeDbContext.CurrencyNames;
 
-    public List<CurrencyNameDomain> Fetch()
+    public async Task<List<CurrencyNameDomain>> Fetch()
     {
-        return _currencyNames.Select(x => new CurrencyNameDomain()
+        return await _currencyNames.Select(x => new CurrencyNameDomain()
         {
             ChineseName = x.ChineseName,
             Code = x.Code
-        }).ToList();
+        }).ToListAsync();
     }
 
-    public void Insert(CurrencyNameApiDto currencyNameApiDto)
+    public async Task Insert(CurrencyNameApiDto currencyNameApiDto)
     {
-        _currencyNames.Add(new CurrencyName
+        await _currencyNames.AddAsync(new CurrencyName
         {
             CreatedOn = DateTime.Now,
             CreatedBy = currencyNameApiDto.Operator,
@@ -32,24 +32,24 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
         cubeDbContext.SaveChanges();
     }
 
-    public void Update(CurrencyNameApiDto currencyNameApiDto)
+    public async Task Update(CurrencyNameApiDto currencyNameApiDto)
     {
-        var target = _currencyNames.First(x => x.Id == currencyNameApiDto.Id);
+        var target = await _currencyNames.FirstAsync(x => x.Id == currencyNameApiDto.Id);
         target.ChineseName = currencyNameApiDto.ChineseName;
         target.Code = currencyNameApiDto.Code;
-        cubeDbContext.SaveChanges();
+        await cubeDbContext.SaveChangesAsync();
     }
 
-    public void DeleteBy(int id)
+    public async Task DeleteBy(int id)
     {
-        var target = _currencyNames.First(x => x.Id == id);
+        var target = await _currencyNames.FirstAsync(x => x.Id == id);
         _currencyNames.Remove(target);
-        cubeDbContext.SaveChanges();
+        await cubeDbContext.SaveChangesAsync();
     }
 
-    public CurrencyNameDomain FetchBy(int id)
+    public async Task<CurrencyNameDomain> FetchBy(int id)
     {
-        var target = _currencyNames.FirstOrDefault(x => x.Id == id);
+        var target = await _currencyNames.FirstOrDefaultAsync(x => x.Id == id);
 
         return new CurrencyNameDomain()
         {

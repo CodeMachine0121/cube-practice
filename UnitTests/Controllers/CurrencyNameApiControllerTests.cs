@@ -23,60 +23,60 @@ public class CurrencyNameApiControllerTests
     }
 
     [Test]
-    public void should_get_by_repo()
+    public async Task should_get_by_repo()
     {
         GivenCurrencyDomains(
             new CurrencyNameDomain()
         );
 
-        var apiResponse = _currencyNameApiController.Fetch();
+        var apiResponse = await _currencyNameApiController.Fetch();
 
         apiResponse.Status.Should().Be(ApiStatus.Success);
         apiResponse.Data!.GetType().Should().Be(typeof(List<CurrencyNameDomain>));
     }
 
     [Test]
-    public void should_insert_by_repo()
+    public async Task should_insert_by_repo()
     {
-        var apiResponse = _currencyNameApiController.Insert(new CurrencyNameApiRequest()
+        var apiResponse = await _currencyNameApiController.Insert(new CurrencyNameApiRequest()
         {
             Code = "any-currency-code",
             ChinessName = "any-chinese-name",
             Operator = "any-operator"
         });
         
-        _cubeRepository.Received()!.Insert(Arg.Any<CurrencyNameApiDto>());
+        await _cubeRepository.Received()!.Insert(Arg.Any<CurrencyNameApiDto>());
         apiResponse.Status.Should().Be(ApiStatus.Success);
     }
 
     [Test]
-    public void should_update_by_repo()
+    public async Task should_update_by_repo()
     {
-        var apiResponse = _currencyNameApiController.Update(new CurrencyNameApiRequest(), 1);
+        var apiResponse = await _currencyNameApiController.Update(new CurrencyNameApiRequest(), 1);
 
-        _cubeRepository.Received()!.Update(Arg.Any<CurrencyNameApiDto>());
+        await _cubeRepository.Received()!.Update(Arg.Any<CurrencyNameApiDto>());
         
         apiResponse.Status.Should().Be(ApiStatus.Success);
     }
 
     [Test]
-    public void should_delete_by_repo()
+    public async Task should_delete_by_repo()
     {
-        var apiResponse = _currencyNameApiController.Delete(1);
+        var apiResponse = await _currencyNameApiController.Delete(1);
 
-        _cubeRepository.Received()!.DeleteBy(1);
+        await _cubeRepository.Received()!.DeleteBy(1);
         
         apiResponse.Status.Should().Be(ApiStatus.Success);
     }
 
     [Test]
-    public void should_get_by_id()
+    public async Task should_get_by_id()
     {
         _cubeRepository!.FetchBy(Arg.Any<int>()).Returns(new CurrencyNameDomain());
         
-        var apiResponse = _currencyNameApiController.FetchById(1);
+        var apiResponse = await _currencyNameApiController.FetchById(1);
         
-        _cubeRepository.Received()!.FetchBy(Arg.Any<int>());
+        await _cubeRepository.Received()!.FetchBy(Arg.Any<int>());
         apiResponse.Status.Should().Be(ApiStatus.Success);
         apiResponse.Data!.GetType().Should().Be(typeof(CurrencyNameDomain));
     }
