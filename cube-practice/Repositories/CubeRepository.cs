@@ -21,7 +21,15 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 
     public void Insert(CurrencyNameApiDto currencyNameApiDto)
     {
-        
+        _currencyNames.Add(new CurrencyName
+        {
+            CreatedOn = DateTime.Now,
+            CreatedBy = currencyNameApiDto.Operator,
+            Code = currencyNameApiDto.Code,
+            ChineseName = currencyNameApiDto.ChineseName
+        });
+
+        cubeDbContext.SaveChanges();
     }
 
     public void Update(CurrencyNameApiDto currencyNameApiDto)
