@@ -4,19 +4,16 @@ using cube_practice.Repositories.Interfaces;
 using cube_practice.Services;
 using FluentAssertions;
 using NSubstitute;
-using NSubstitute.Core;
-using NUnit.Framework;
 
 namespace UnitTests.Services;
 
 [TestFixture]
 public class CubeServiceTests
 {
-
     private ICubeProxy? _cubeProxy;
+    private ICubeRepository? _cubeRepository;
     private CubeService _cubeService;
     private DateTime _updatedOn;
-    private ICubeRepository? _cubeRepository;
 
     [SetUp]
     public void SetUp()
@@ -33,26 +30,27 @@ public class CubeServiceTests
     {
         GivenCoinDesk(new Dictionary<string, CurrencyDetailResponse>()
         {
-            {"any-currency-code", new CurrencyDetailResponse
+            {
+                "any-currency-code", new CurrencyDetailResponse
                 {
                     Code = "any-currency-code",
                     Symbol = "&any",
                     Rate = "any-rate",
-                    RateFloat = "any-flow-rate" 
+                    RateFloat = "any-flow-rate"
                 }
             },
         });
-        
+
         GivenCurrencyNames(
             new CurrencyNameDomain()
             {
-                Code= "any-currency-code" ,
+                Code = "any-currency-code",
                 ChineseName = "any-chinese-name"
-            } 
+            }
         );
-        
+
         var coinDesk = await _cubeService.GetCoinDesk();
-        
+
         coinDesk.Should().BeEquivalentTo(new CurrencyRate()
         {
             UpdatedOn = _updatedOn,
@@ -73,26 +71,27 @@ public class CubeServiceTests
     {
         GivenCoinDesk(new Dictionary<string, CurrencyDetailResponse>()
         {
-            {"any-currency-code", new CurrencyDetailResponse
+            {
+                "any-currency-code", new CurrencyDetailResponse
                 {
                     Code = "any-currency-code",
                     Symbol = "&any",
                     Rate = "any-rate",
-                    RateFloat = "any-flow-rate" 
+                    RateFloat = "any-flow-rate"
                 }
             },
         });
-        
+
         GivenCurrencyNames(
             new CurrencyNameDomain()
             {
-                Code= "any-currency-code2" ,
+                Code = "any-currency-code2",
                 ChineseName = "any-chinese-name2"
-            } 
+            }
         );
-        
+
         var coinDesk = await _cubeService.GetCoinDesk();
-        
+
         coinDesk.Should().BeEquivalentTo(new CurrencyRate()
         {
             UpdatedOn = _updatedOn,
@@ -106,7 +105,47 @@ public class CubeServiceTests
                 }
             }
         });
- 
+    }
+
+    [Test]
+    public async Task should_get_data_with_order()
+    {
+        GivenCoinDesk(new Dictionary<string, CurrencyDetailResponse>()
+        {
+            {
+                "any-currency-code2", new CurrencyDetailResponse
+                {
+                    Code = "any-currency-code2",
+                }
+            },
+            {
+                "any-currency-code1", new CurrencyDetailResponse
+                {
+                    Code = "any-currency-code1",
+                }
+            }
+        });
+
+        GivenCurrencyNames(
+            new CurrencyNameDomain()
+            {
+                Code = "any-currency-code2",
+                ChineseName = "any-chinese-name2"
+            },
+            new CurrencyNameDomain()
+            {
+                Code = "any-currency-code1",
+                ChineseName = "any-chinese-name1"
+            }
+        );
+
+        var coinDesk = await _cubeService.GetCoinDesk();
+
+        coinDesk.Detail.First().Should().BeEquivalentTo(new CurrencyDetail()
+        {
+            Code = "any-currency-code1",
+            ChineseName = "any-chinese-name1",
+        });
     }
 
     private void GivenCurrencyNames(params CurrencyNameDomain[] currencyNameDomains)
@@ -119,7 +158,7 @@ public class CubeServiceTests
         _cubeProxy!.GetCoinDesk().Returns(CreateCurrencyRateResponse(bpi));
     }
 
-    private CurrencyRateResponse CreateCurrencyRateResponse( Dictionary<string, CurrencyDetailResponse> bpi)
+    private CurrencyRateResponse CreateCurrencyRateResponse(Dictionary<string, CurrencyDetailResponse> bpi)
     {
         return new CurrencyRateResponse
         {
@@ -127,8 +166,7 @@ public class CubeServiceTests
             {
                 UpdatedIso = _updatedOn,
             },
-            Bpi = bpi 
+            Bpi = bpi
         };
     }
-
 }
