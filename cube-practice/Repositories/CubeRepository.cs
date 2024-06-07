@@ -27,4 +27,9 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
     public void Update(CurrencyNameApiDto currencyNameApiDto)
     {
     }
+
+    public void DeleteBy(int id)
+    {
+        
+    }
 }

@@ -35,4 +35,10 @@ public class CurrencyNameApiController(ICubeRepository cubeRepository)
         
         return ApiResponse.Success();
     }
+
+    public ApiResponse Delete(int id)
+    {
+        cubeRepository.DeleteBy(id);
+        return ApiResponse.Success();
+    }
 }

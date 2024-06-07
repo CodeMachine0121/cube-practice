@@ -58,6 +58,16 @@ public class CurrencyNameApiControllerTests
         apiResponse.Status.Should().Be(ApiStatus.Success);
     }
 
+    [Test]
+    public void should_delete_by_repo()
+    {
+        var apiResponse = _currencyNameApiController.Delete(1);
+
+        _cubeRepository.Received()!.DeleteBy(1);
+        
+        apiResponse.Status.Should().Be(ApiStatus.Success);
+    }
+
     private void GivenCurrencyDomains(params CurrencyNameDomain[] currencyNameDomains)
     {
         _cubeRepository!.Fetch().Returns(currencyNameDomains.ToList());
