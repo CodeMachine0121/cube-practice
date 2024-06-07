@@ -8,7 +8,7 @@ namespace cube_practice.Repositories;
 
 public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 {
-    private readonly DbSet<CurrencyName> _currencyNames = cubeDbContext.CurrencyName;
+    private readonly DbSet<CurrencyName> _currencyNames = cubeDbContext.CurrencyNames;
 
     public List<CurrencyNameDomain> Fetch()
     {

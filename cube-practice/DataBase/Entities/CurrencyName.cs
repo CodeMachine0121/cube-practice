@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace cube_practice.DataBase.Entities;
 
 [Table("CurrencyName")]
-public class CurrencyName: BaseEntity
+public class CurrencyName: BaseEntityIntId
 {
     [Required]
     [StringLength(3)]
