@@ -24,4 +24,15 @@ public class CurrencyNameApiController(ICubeRepository cubeRepository)
         return ApiResponse.Success();
     }
 
+    public ApiResponse Update(CurrencyNameApiRequest request)
+    {
+        cubeRepository.Update(new CurrencyNameApiDto()
+        {
+           Id = request.Id,
+           ChineseName = request.ChinessName,
+           Code = request.Code
+        });
+        
+        return ApiResponse.Success();
+    }
 }

@@ -48,6 +48,16 @@ public class CurrencyNameApiControllerTests
         apiResponse.Status.Should().Be(ApiStatus.Success);
     }
 
+    [Test]
+    public void should_update_by_repo()
+    {
+        var apiResponse = _currencyNameApiController.Update(new CurrencyNameApiRequest());
+
+        _cubeRepository.Received()!.Update(Arg.Any<CurrencyNameApiDto>());
+        
+        apiResponse.Status.Should().Be(ApiStatus.Success);
+    }
+
     private void GivenCurrencyDomains(params CurrencyNameDomain[] currencyNameDomains)
     {
         _cubeRepository!.Fetch().Returns(currencyNameDomains.ToList());

@@ -23,4 +23,8 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
     {
         
     }
+
+    public void Update(CurrencyNameApiDto currencyNameApiDto)
+    {
+    }
 }

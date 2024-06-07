@@ -6,4 +6,5 @@ public interface ICubeRepository
 {
     List<CurrencyNameDomain> Fetch();
     void Insert(CurrencyNameApiDto currencyNameApiDto);
+    void Update(CurrencyNameApiDto currencyNameApiDto);
 }
