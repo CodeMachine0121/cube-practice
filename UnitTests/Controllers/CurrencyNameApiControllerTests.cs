@@ -41,7 +41,8 @@ public class CurrencyNameApiControllerTests
         var apiResponse = _currencyNameApiController.Insert(new CurrencyNameApiRequest()
         {
             Code = "any-currency-code",
-            ChinessName = "any-chinese-name" 
+            ChinessName = "any-chinese-name",
+            Operator = "any-operator"
         });
         
         _cubeRepository.Received()!.Insert(Arg.Any<CurrencyNameApiDto>());

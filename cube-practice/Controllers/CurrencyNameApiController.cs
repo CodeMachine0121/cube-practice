@@ -21,7 +21,8 @@ public class CurrencyNameApiController(ICubeRepository cubeRepository)
         cubeRepository.Insert(new CurrencyNameApiDto()
         {
             Code = request.Code,
-            ChineseName = request.ChinessName
+            ChineseName = request.ChinessName,
+            Operator = request.Operator
         });
         
         return ApiResponse.Success();
