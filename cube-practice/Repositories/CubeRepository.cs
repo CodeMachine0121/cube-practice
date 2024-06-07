@@ -12,7 +12,7 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 
     public List<CurrencyNameDomain> Fetch()
     {
-        return _currencyNames.Select(x=> new CurrencyNameDomain()
+        return _currencyNames.Select(x => new CurrencyNameDomain()
         {
             ChineseName = x.ChineseName,
             Code = x.Code
@@ -34,7 +34,7 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 
     public void Update(CurrencyNameApiDto currencyNameApiDto)
     {
-        var target = _currencyNames.First(x=> x.Id == currencyNameApiDto.Id);
+        var target = _currencyNames.First(x => x.Id == currencyNameApiDto.Id);
         target.ChineseName = currencyNameApiDto.ChineseName;
         target.Code = currencyNameApiDto.Code;
         cubeDbContext.SaveChanges();
@@ -42,18 +42,19 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 
     public void DeleteBy(int id)
     {
-        var target = _currencyNames.First(x=> x.Id == id);
+        var target = _currencyNames.First(x => x.Id == id);
         _currencyNames.Remove(target);
         cubeDbContext.SaveChanges();
     }
 
     public CurrencyNameDomain FetchBy(int id)
     {
-        var target = _currencyNames.FirstOrDefault(x=> x.Id == id);
+        var target = _currencyNames.FirstOrDefault(x => x.Id == id);
+
         return new CurrencyNameDomain()
         {
-            ChineseName = target.ChineseName,
-            Code = target.Code
+            ChineseName = target?.ChineseName ?? "",
+            Code = target?.Code ?? ""
         };
     }
 }
