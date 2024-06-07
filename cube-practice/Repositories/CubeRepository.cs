@@ -49,6 +49,11 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 
     public CurrencyNameDomain FetchBy(int id)
     {
-        return new CurrencyNameDomain();
+        var target = _currencyNames.FirstOrDefault(x=> x.Id == id);
+        return new CurrencyNameDomain()
+        {
+            ChineseName = target.ChineseName,
+            Code = target.Code
+        };
     }
 }
