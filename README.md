@@ -10,6 +10,7 @@ sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=<YourStrong@Passw0rd>" 
    -d \
    mcr.microsoft.com/mssql/server:2022-latest
 ```
+- Execute sql schema file: `sql-schemes/init.sql`
 - Build image for the project: `docker build -t cube-practice .`
 - Run the project: `docker run -itd -p 8080:8080 --name cube --network my-network cube-practice`
 ---
