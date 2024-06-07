@@ -26,6 +26,7 @@ builder.Services.AddHttpClient<ICubeProxy, CubeProxy>(client =>
 builder.Services.AddDbContext<CubeDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetValue<string>("Sql");
+    connectionString = connectionString!.Replace("${DB_SERVER}", Environment.GetEnvironmentVariables()["DB_SERVER"]!.ToString());
     connectionString = connectionString!.Replace("${DB_NAME}", Environment.GetEnvironmentVariables()["DB_NAME"]!.ToString());
     connectionString = connectionString!.Replace("${DB_USER}", Environment.GetEnvironmentVariables()["DB_USER"]!.ToString());
     connectionString = connectionString!.Replace("${DB_PASS}", Environment.GetEnvironmentVariables()["DB_PASS"]!.ToString());
