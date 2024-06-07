@@ -1,3 +1,5 @@
+using cube_practice.Enums;
+
 namespace cube_practice.Models;
 
 public class ApiResponse

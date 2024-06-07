@@ -18,4 +18,9 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
             Code = x.Code
         }).ToList();
     }
+
+    public void Insert(CurrencyNameApiDto currencyNameApiDto)
+    {
+        
+    }
 }

@@ -15,4 +15,18 @@ public class CurrencyNameApiController(ICubeRepository cubeRepository)
             Data = currencyNameDomains
         };
     }
+
+    public ApiResponse Insert(CurrencyNameApiRequest request)
+    {
+        cubeRepository.Insert(new CurrencyNameApiDto()
+        {
+            Code = request.Code,
+            ChineseName = request.ChinessName
+        });
+        
+        return new ApiResponse()
+        {
+            Status = ApiStatus.Success
+        };
+    }
 }

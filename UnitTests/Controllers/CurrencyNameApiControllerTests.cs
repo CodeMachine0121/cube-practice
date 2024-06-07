@@ -35,6 +35,19 @@ public class CurrencyNameApiControllerTests
         apiResponse.Data!.GetType().Should().Be(typeof(List<CurrencyNameDomain>));
     }
 
+    [Test]
+    public void should_insert_by_repo()
+    {
+        var apiResponse = _currencyNameApiController.Insert(new CurrencyNameApiRequest()
+        {
+            Code = "any-currency-code",
+            ChinessName = "any-chinese-name" 
+        });
+        
+        _cubeRepository.Received()!.Insert(Arg.Any<CurrencyNameApiDto>());
+        apiResponse.Status.Should().Be(ApiStatus.Success);
+    }
+
     private void GivenCurrencyDomains(params CurrencyNameDomain[] currencyNameDomains)
     {
         _cubeRepository!.Fetch().Returns(currencyNameDomains.ToList());
