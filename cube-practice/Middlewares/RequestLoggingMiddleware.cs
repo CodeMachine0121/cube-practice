@@ -22,7 +22,9 @@ public class RequestLoggingMiddleware(RequestDelegate next, ILogger<RequestLoggi
         {
             context.Request.EnableBuffering();
             context.Request.Body.Position = 0;
-            return await new StreamReader(context.Request.Body).ReadToEndAsync();
+            var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
+            context.Request.Body.Position = 0;
+            return body;
         }
         catch
         {
