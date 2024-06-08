@@ -38,4 +38,19 @@ public class CubeRepositoryCacheTests
         await _memoryCache.Received()!.GetOrCreateAsync<List<CurrencyNameDomain>>(Arg.Any<string>(),
             x => _cubeRepository!.Fetch());
     }
+
+    [Test]
+    public async Task should_get_by_repo_with_id()
+    {
+       await _cubeRepositoryCache.FetchBy(1);
+       await _cubeRepository!.Received().FetchBy(Arg.Any<int>());
+    }
+
+    [Test]
+    public async Task should_get_by_cache_with_id()
+    {
+       await _cubeRepositoryCache.FetchBy(1);
+       await _memoryCache.Received()!.GetOrCreateAsync<CurrencyNameDomain>(Arg.Any<string>(), x=>  _cubeRepository!.FetchBy(Arg.Any<int>()));
+    }
+
 }

@@ -9,7 +9,11 @@ public class CubeRepositoryCache(ICubeRepository cubeRepository, IMemoryCache me
     public async Task<List<CurrencyNameDomain>> Fetch()
     {
         return (await memoryCache.GetOrCreateAsync($"{nameof(CubeRepositoryCache)}- {nameof(Fetch)}",
-            entry => cubeRepository.Fetch()))!;
+            entry =>
+            {
+                entry.SlidingExpiration = TimeSpan.FromMinutes(10);
+                return cubeRepository.Fetch();
+            }))!;
     }
 
     public Task Insert(CurrencyNameApiDto currencyNameApiDto)
@@ -27,8 +31,13 @@ public class CubeRepositoryCache(ICubeRepository cubeRepository, IMemoryCache me
         throw new NotImplementedException();
     }
 
-    public Task<CurrencyNameDomain> FetchBy(int id)
+    public async Task<CurrencyNameDomain> FetchBy(int id)
     {
-        throw new NotImplementedException();
+        return (await memoryCache.GetOrCreateAsync($"{nameof(CubeRepositoryCache)}- {nameof(FetchBy)}",
+            entry =>
+            {
+                entry.SlidingExpiration = TimeSpan.FromMinutes(10);
+                return cubeRepository.FetchBy(id);
+            }))!;
     }
 }
