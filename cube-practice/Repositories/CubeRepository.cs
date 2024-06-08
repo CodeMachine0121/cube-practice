@@ -14,6 +14,7 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
     {
         return await _currencyNames.Select(x => new CurrencyNameDomain()
         {
+            Id = x.Id,
             ChineseName = x.ChineseName,
             Code = x.Code
         }).ToListAsync();
@@ -53,6 +54,7 @@ public class CubeRepository(CubeDbContext cubeDbContext) : ICubeRepository
 
         return new CurrencyNameDomain()
         {
+            Id = target?.Id ?? -1,
             ChineseName = target?.ChineseName ?? "",
             Code = target?.Code ?? ""
         };
