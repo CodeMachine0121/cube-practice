@@ -3,10 +3,12 @@ using cube_practice.Middlewares;
 using cube_practice.Proxies;
 using cube_practice.Proxies.Interfaces;
 using cube_practice.Repositories;
+using cube_practice.Repositories.Caches;
 using cube_practice.Repositories.Interfaces;
 using cube_practice.Services;
 using cube_practice.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
+builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
 
 builder.Services.AddHttpClient<ICubeProxy, CubeProxy>(client =>
 {
@@ -40,6 +43,7 @@ builder.Services.AddDbContext<CubeDbContext>(options =>
 
 
 builder.Services.AddTransient<ICubeRepository, CubeRepository>();
+builder.Services.Decorate<ICubeRepository, CubeRepositoryCache>();
 builder.Services.AddTransient<ICubeService, CubeService>();
 
 
