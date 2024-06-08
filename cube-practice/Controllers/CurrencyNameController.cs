@@ -21,7 +21,7 @@ public class CurrencyNameController(ICubeRepository cubeRepository)
         await cubeRepository.Insert(new CurrencyNameApiDto()
         {
             Code = request.Code,
-            ChineseName = request.ChinessName,
+            ChineseName = request.ChineseName,
             Operator = request.Operator
         });
         
@@ -34,7 +34,7 @@ public class CurrencyNameController(ICubeRepository cubeRepository)
         await cubeRepository.Update(new CurrencyNameApiDto()
         {
             Id = id,
-            ChineseName = request.ChinessName,
+            ChineseName = request.ChineseName,
             Code = request.Code
         });
         

@@ -41,7 +41,7 @@ public class CurrencyNameApiControllerTests
         var apiResponse = await _currencyNameController.Insert(new CurrencyNameApiRequest()
         {
             Code = "any-currency-code",
-            ChinessName = "any-chinese-name",
+            ChineseName = "any-chinese-name",
             Operator = "any-operator"
         });
         
