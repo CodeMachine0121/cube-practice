@@ -8,12 +8,13 @@ public class CubeRepositoryCache(ICubeRepository cubeRepository, IMemoryCache me
 {
     public async Task<List<CurrencyNameDomain>> Fetch()
     {
-        return (await memoryCache.GetOrCreateAsync($"{nameof(CubeRepositoryCache)}-{nameof(Fetch)}",
+        var currencyNameDomains = await memoryCache.GetOrCreateAsync($"{nameof(CubeRepositoryCache)}-{nameof(Fetch)}",
             entry =>
             {
                 entry.SlidingExpiration = TimeSpan.FromMinutes(10);
                 return cubeRepository.Fetch();
-            }))!;
+            });
+        return currencyNameDomains!;
     }
 
     public async Task Insert(CurrencyNameApiDto currencyNameApiDto)
@@ -25,7 +26,8 @@ public class CubeRepositoryCache(ICubeRepository cubeRepository, IMemoryCache me
     public async Task Update(CurrencyNameApiDto currencyNameApiDto)
     {
         await cubeRepository.Update(currencyNameApiDto);
-        memoryCache.Remove($"{nameof(CubeRepositoryCache)}-{nameof(Update)}-{currencyNameApiDto.Id}");
+        memoryCache.Remove($"{nameof(CubeRepositoryCache)}-{nameof(FetchBy)}-{currencyNameApiDto.Id}");
+        memoryCache.Remove($"{nameof(CubeRepositoryCache)}-{nameof(ICubeRepository.Fetch)}");
     }
 
     public async Task DeleteBy(int id)

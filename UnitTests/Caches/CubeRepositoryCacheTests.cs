@@ -82,7 +82,8 @@ public class CubeRepositoryCacheTests
        {
           Id = 1
        }) ;
-       _memoryCache.Received()!.Remove($"{nameof(CubeRepositoryCache)}-{nameof(ICubeRepository.Update)}-{1}");
+       _memoryCache.Received()!.Remove($"{nameof(CubeRepositoryCache)}-{nameof(ICubeRepository.FetchBy)}-{1}");
+       _memoryCache.Received()!.Remove($"{nameof(CubeRepositoryCache)}-{nameof(ICubeRepository.Fetch)}");
     }
 
     [Test]
