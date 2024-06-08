@@ -13,6 +13,10 @@ public class CubeController(ICubeService cubeService) : ControllerBase
    public async Task<ApiResponse> CoinDesk()
    {
       var coinDesk = await cubeService.GetCoinDesk();
-      return ApiResponse.SuccessWithData(coinDesk);
+      return ApiResponse.SuccessWithData(new
+      {
+         UpdatedOn = coinDesk.UpdatedOn.ToString("yyyy/MM/dd HH:mm:ss"),
+         Detail = coinDesk.Detail
+      });
    }
 }
