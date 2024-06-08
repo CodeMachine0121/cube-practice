@@ -85,4 +85,19 @@ public class CubeRepositoryCacheTests
        _memoryCache.Received()!.Remove($"{nameof(CubeRepositoryCache)}-{nameof(ICubeRepository.Update)}-{1}");
     }
 
+    [Test]
+    public async Task should_delete_by_repo()
+    {
+      await _cubeRepositoryCache.DeleteBy(1);
+      await _cubeRepository.Received()!.DeleteBy(Arg.Any<int>());
+    }
+
+    [Test]
+    public async Task should_delete_cache_after_delete_data()
+    {
+       await _cubeRepositoryCache.DeleteBy(1);
+       _memoryCache.Received()!.Remove($"{nameof(CubeRepositoryCache)}-{nameof(ICubeRepository.Fetch)}");
+       _memoryCache.Received()!.Remove($"{nameof(CubeRepositoryCache)}-{nameof(ICubeRepository.FetchBy)}-{1}");
+    }
+
 }
