@@ -48,6 +48,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseMiddleware<RequestLoggingMiddleware>();
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseRouting();
 app.MapControllers();
