@@ -8,7 +8,7 @@ public class CubeRepositoryCache(ICubeRepository cubeRepository, IMemoryCache me
 {
     public async Task<List<CurrencyNameDomain>> Fetch()
     {
-        return (await memoryCache.GetOrCreateAsync($"{nameof(CubeRepositoryCache)}- {nameof(Fetch)}",
+        return (await memoryCache.GetOrCreateAsync($"{nameof(CubeRepositoryCache)}-{nameof(Fetch)}",
             entry =>
             {
                 entry.SlidingExpiration = TimeSpan.FromMinutes(10);
@@ -16,9 +16,10 @@ public class CubeRepositoryCache(ICubeRepository cubeRepository, IMemoryCache me
             }))!;
     }
 
-    public Task Insert(CurrencyNameApiDto currencyNameApiDto)
+    public async Task Insert(CurrencyNameApiDto currencyNameApiDto)
     {
-        throw new NotImplementedException();
+        await cubeRepository.Insert(currencyNameApiDto);
+        memoryCache.Remove($"{nameof(CubeRepositoryCache)}-{nameof(Fetch)}");
     }
 
     public Task Update(CurrencyNameApiDto currencyNameApiDto)
@@ -33,7 +34,7 @@ public class CubeRepositoryCache(ICubeRepository cubeRepository, IMemoryCache me
 
     public async Task<CurrencyNameDomain> FetchBy(int id)
     {
-        return (await memoryCache.GetOrCreateAsync($"{nameof(CubeRepositoryCache)}- {nameof(FetchBy)}",
+        return (await memoryCache.GetOrCreateAsync($"{nameof(CubeRepositoryCache)}-{nameof(FetchBy)}-{id}",
             entry =>
             {
                 entry.SlidingExpiration = TimeSpan.FromMinutes(10);

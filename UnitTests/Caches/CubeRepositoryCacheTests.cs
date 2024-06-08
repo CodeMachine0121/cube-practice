@@ -1,4 +1,5 @@
 using cube_practice.Models;
+using cube_practice.Repositories;
 using cube_practice.Repositories.Caches;
 using cube_practice.Repositories.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
@@ -52,5 +53,20 @@ public class CubeRepositoryCacheTests
        await _cubeRepositoryCache.FetchBy(1);
        await _memoryCache.Received()!.GetOrCreateAsync<CurrencyNameDomain>(Arg.Any<string>(), x=>  _cubeRepository!.FetchBy(Arg.Any<int>()));
     }
+
+    [Test]
+    public async Task should_insert_by_repo()
+    {
+       await _cubeRepositoryCache.Insert(new CurrencyNameApiDto());
+       await _cubeRepository.Received()!.Insert(Arg.Any<CurrencyNameApiDto>());
+    }
+
+    [Test]
+    public async Task should_delete_cache_after_insert()
+    {
+       await _cubeRepositoryCache.Insert(new CurrencyNameApiDto());
+       _memoryCache.Received()?.Remove($"{nameof(CubeRepositoryCache)}-{nameof(ICubeRepository.Fetch)}");
+    }
+    
 
 }
