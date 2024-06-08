@@ -11,6 +11,8 @@ public class ErrorHandlerMiddleware(ILogger<ErrorHandlerMiddleware> logger, Requ
         catch (Exception e)
         {
             logger.LogError(e.ToString());
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsync("something went wrong, pls contact support");
         }
     }
 
