@@ -22,9 +22,10 @@ public class CubeRepositoryCache(ICubeRepository cubeRepository, IMemoryCache me
         memoryCache.Remove($"{nameof(CubeRepositoryCache)}-{nameof(Fetch)}");
     }
 
-    public Task Update(CurrencyNameApiDto currencyNameApiDto)
+    public async Task Update(CurrencyNameApiDto currencyNameApiDto)
     {
-        throw new NotImplementedException();
+        await cubeRepository.Update(currencyNameApiDto);
+        memoryCache.Remove($"{nameof(CubeRepositoryCache)}-{nameof(Update)}-{currencyNameApiDto.Id}");
     }
 
     public Task DeleteBy(int id)

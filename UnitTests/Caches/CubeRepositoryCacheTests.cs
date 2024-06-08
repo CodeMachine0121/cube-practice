@@ -67,6 +67,22 @@ public class CubeRepositoryCacheTests
        await _cubeRepositoryCache.Insert(new CurrencyNameApiDto());
        _memoryCache.Received()?.Remove($"{nameof(CubeRepositoryCache)}-{nameof(ICubeRepository.Fetch)}");
     }
-    
+
+    [Test]
+    public async Task should_update_by_repo()
+    {
+       await _cubeRepositoryCache.Update(new CurrencyNameApiDto()) ;
+       await _cubeRepository.Received()!.Update(Arg.Any<CurrencyNameApiDto>());
+    }
+
+    [Test]
+    public async Task should_delete_cache_after_update()
+    {
+       await _cubeRepositoryCache.Update(new CurrencyNameApiDto()
+       {
+          Id = 1
+       }) ;
+       _memoryCache.Received()!.Remove($"{nameof(CubeRepositoryCache)}-{nameof(ICubeRepository.Update)}-{1}");
+    }
 
 }
